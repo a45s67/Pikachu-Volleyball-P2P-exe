@@ -17,7 +17,7 @@ This is writen by myself, I think it is safe(?)
 
 
 ## Description of some important source files
-- **binary-modification/inject PE/insert.c** : 
+- **binary modification/inject PE/insert.c** : 
   - change the characteristics of .rsrc section to RWX and expand it for new func, new IAT.  
   (At first I considered to add a new section for functions, append new DLL exports to import table directly with PE Lord. But it said there was no space. :tear: )
   - insert func shellcode, expand IAT for DLL injection
