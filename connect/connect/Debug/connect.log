@@ -1,3 +1,6 @@
-﻿  dialog.cpp
-C:\Users\a45s67\source\repos\connect\connect\dialog.cpp(34,13): warning C4101: 'lpdwProcessId': 未參考的區域變數
-  connect.vcxproj -> C:\Users\a45s67\source\repos\connect\Debug\connect.dll
+﻿  pch.cpp
+  dialog.cpp
+C:\Users\a45s67\Documents\GitHub\Pikachu-Volleyball-P2P\connect\connect\dialog.cpp(34,13): warning C4101: 'lpdwProcessId': 未參考的區域變數
+  dllmain.cpp
+     正在建立程式庫 C:\Users\a45s67\Documents\GitHub\Pikachu-Volleyball-P2P\connect\Debug\connect.lib 和物件 C:\Users\a45s67\Documents\GitHub\Pikachu-Volleyball-P2P\connect\Debug\connect.exp
+  connect.vcxproj -> C:\Users\a45s67\Documents\GitHub\Pikachu-Volleyball-P2P\connect\Debug\connect.dll
