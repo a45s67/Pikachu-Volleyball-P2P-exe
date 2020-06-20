@@ -10,9 +10,11 @@ Directory
 4. Play
 
 > ### Note  
-> + I download the .exe of this game from internet, and modify it to "new_pika_IAT_mod.exe". I did not trace throughly of this binary, not sure if this file is safe =口=...(At least built-in Windows Defence didn't warn me)
-
-> + "connect.dll" is the compiled output of project "connect" in "connect/" with Visual Studio. This is writen by myself, I think it is safe(?)
+> + I download the .exe of this game from internet, and modify it to "new_pika_IAT_mod.exe". 
+I did not trace throughly of this binary, not sure if this file is safe =口=... 
+( At least built-in Windows Defence didn't warn me )
+> + "connect.dll" is the compiled output of project "connect" in "connect/" with Visual Studio.
+This is writen by myself, I think it is safe(?)
 
 
 
