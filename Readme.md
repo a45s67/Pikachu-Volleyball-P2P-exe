@@ -1,9 +1,9 @@
-#Pikachu Volleyball P2P (.exe version)
+Pikachu Volleyball P2P (.exe version)
 =======================
 
-#Directory
+Directory
 
-#How to use
+## How to use
 1. Download "Pikachu-Volleyball-P2P.zip" and unzip it.
 2. Excute "new_pika_IAT_mod.exe" and select 2P mode.
 3. Set the ip and port 
@@ -22,11 +22,6 @@ note 2:
 
 
 
-
-
-
-
-
-#Future work
+## Future work
 Write some func to 
-#References
+## References
