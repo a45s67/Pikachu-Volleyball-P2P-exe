@@ -47,11 +47,28 @@ act_socket = asm("""
         jmp 0x404f41
         
     lab2:
+        /*rand seed reset*/
+        push 0x4
+        push 0x490200  /*new rand seed*/
+        mov eax,[0x499008]
+        call eax 
+        add esp,0x8
+
+
+
         mov edx,2
         mov eax,3
         jmp 0x404f41
     
     lab3:
+        /*rand seed reset*/
+        push 0x4
+        push 0x490200  /*new rand seed*/
+        mov eax,[0x499000]
+        call eax 
+        add esp,0x8
+
+
         mov edx,3
         mov eax,2
         jmp 0x404f41
@@ -66,11 +83,25 @@ act_send_recv = asm("""
 
         push ebp
         mov ebp,esp
+
+        /*======auto test======*/
+        mov eax,[ebp+0xc+0x4]
+        push eax
+        mov eax,[ebp+0x8+0x4]
+        push eax
+        mov eax,[ebp+0x4+0x4]
+        push eax
+        call 0x402360
+
+
+        /*======auto test======*/
+
+
         push ecx
         push ebx
         push esi
         push edi
-        
+        mov ecx,esi
         /*  */
         mov eax , [ebp+0xc+0x4]
         push 0x10          /* size of act[4]*/
@@ -82,7 +113,8 @@ act_send_recv = asm("""
         je recv
         cmp eax,3
         je send
-        
+        cmp eax,1
+        je end
         cmp eax,0
         je end
 
@@ -93,13 +125,12 @@ send:
         call eax
         add esp,0x8
         jmp end
+
 recv:
         mov eax,[0x499000]
         call eax
         add esp,0x8
         jmp end
-
-
 
 end:
         /* */
@@ -111,7 +142,7 @@ end:
         pop ebp
         
         ret 0xc
-        """,vma = 0x490050)
+        """,vma = 0x490070)
 
 # act_send = asm("""
         # mov eax,[0x499008]
