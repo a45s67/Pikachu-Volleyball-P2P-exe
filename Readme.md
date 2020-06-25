@@ -61,3 +61,22 @@ Add the function which can search the created server under the same LAN.
 - [Using Dialog Boxes](https://docs.microsoft.com/en-us/windows/win32/dlgbox/using-dialog-boxes)
 
 - [Getting Started Reversing C++ Objects with Ghidra](https://www.youtube.com/watch?v=ir2B1trR0fE)
+
+- [Using Mutex Objects](https://docs.microsoft.com/en-us/windows/win32/sync/using-mutex-objects)
+
+- [Windows Socket 速查筆記](http://www.cchsu.com/arthur/prg_bg5/winsock.htm) Non-blocking socket 的相關操作
+
+- [Beej's Guide to Network Programming 正體中文版 - 7.2. select()：同步 I/O 多工](http://beej-zhtw.netdpi.net/07-advanced-technology/7-2-select)
+
+### Solutions of encounting problems and some useful tables
+- [VCRUNTIME140.dll is missing](https://stackoverflow.com/questions/35805113/visual-studio-2015-run-time-dependencies-or-how-to-get-rid-of-universal-crt)
+
+- [TCP/UDP埠列表](https://zh.wikipedia.org/wiki/TCP/UDP%E7%AB%AF%E5%8F%A3%E5%88%97%E8%A1%A8)
+
+- [How do you use CreateThread for functions which are class members?](https://stackoverflow.com/questions/1372967/how-do-you-use-createthread-for-functions-which-are-class-members)
+
+- [My TCP servr was killed with WSACancelBlockingCall?](https://stackoverflow.com/questions/23156693/my-tcp-servr-was-killed-with-wsacancelblockingcall) : 當我建立房間時，如果`create_room_socket()`接收到多次來自其他人`search_room_socket()`的connect要求，另一個thread中`create_socket()`的`accept()`會直接跳出並得到`10004`的error code，發現似乎是由於我每次回應後都會call `WSACleanup()`導致WinSock2.0被關閉。註解掉後暫時沒問題。
+
+- [SetFocus() in WM_INITDIALOG](http://forums.codeguru.com/showthread.php?432495-SetFocus()-in-WM_INITDIALOG) : I want to set the editbox bind to the keybord input in default. But almost every disscussion thread I found with Google say that just using `SetFocus()` when accept `WM_INITDIALOG` msg. And it seems not work to me. Finally I found that it must return `false` when accepting `WM_INITDIALOG` or the Dialog will still apply the default keyboard focus. For more details, refer to [WM_INITDIALOG message](https://docs.microsoft.com/zh-tw/windows/win32/dlgbox/wm-initdialog?redirectedfrom=MSDN).
+
+- [adding syslink not displaying mfc dialog box](https://stackoverflow.com/questions/25397814/adding-syslink-not-displaying-mfc-dialog-box)
