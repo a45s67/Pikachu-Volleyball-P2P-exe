@@ -1,7 +1,7 @@
 Pikachu Volleyball P2P (.exe version)
 =======================
 
-![demo](./pic/demo.png)
+![demo](./pic/demo.PNG)
 
 ## How to use
 1. Download "Pikachu-Volleyball-P2P.zip" and unzip it.
