@@ -51,9 +51,11 @@ This is writen by myself, I think it is safe(?)
 
 
 ## Future work
-Add the function which can search the created server under the same LAN.
+
+Haven't decided, maybe better user experience.
 
 ## References
+
 - 加密與解密 第四版 
   - Chap.11 PE文件格式 
   - Chap.12 注入技術
@@ -73,7 +75,8 @@ Add the function which can search the created server under the same LAN.
 
 - [Beej's Guide to Network Programming 正體中文版 - 7.2. select()：同步 I/O 多工](http://beej-zhtw.netdpi.net/07-advanced-technology/7-2-select)
 
-### Solutions of encounting problems and some useful tables
+## Solutions of problems I encounted when programming
+
 - [VCRUNTIME140.dll is missing](https://stackoverflow.com/questions/35805113/visual-studio-2015-run-time-dependencies-or-how-to-get-rid-of-universal-crt)
 
 - [TCP/UDP埠列表](https://zh.wikipedia.org/wiki/TCP/UDP%E7%AB%AF%E5%8F%A3%E5%88%97%E8%A1%A8)
