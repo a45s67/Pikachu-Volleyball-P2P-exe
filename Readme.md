@@ -1,6 +1,7 @@
 Pikachu Volleyball P2P (.exe version)
 =======================
 
+![demo](./pic/demo.png)
 
 ## How to use
 1. Download "Pikachu-Volleyball-P2P.zip" and unzip it.
@@ -87,4 +88,6 @@ Haven't decided, maybe better user experience.
 
 - [SetFocus() in WM_INITDIALOG](http://forums.codeguru.com/showthread.php?432495-SetFocus()-in-WM_INITDIALOG) : I want to set the editbox bind to the keybord input in default. But almost every disscussion thread I found with Google say that just using `SetFocus()` when accept `WM_INITDIALOG` msg. And it seems not work to me. Finally I found that it must return `false` when accepting `WM_INITDIALOG` or the Dialog will still apply the default keyboard focus. For more details, refer to [WM_INITDIALOG message](https://docs.microsoft.com/zh-tw/windows/win32/dlgbox/wm-initdialog?redirectedfrom=MSDN).
 
-- [adding syslink not displaying mfc dialog box](https://stackoverflow.com/questions/25397814/adding-syslink-not-displaying-mfc-dialog-box)
+- [adding syslink not displaying mfc dialog box](https://stackoverflow.com/questions/25397814/adding-syslink-not-displaying-mfc-dialog-box) / [C++: Dialogs with SysLink control do not show up](https://twigstechtips.blogspot.com/2010/03/c-dialogs-with-syslink-control-do-not.html) 總結是syslink不支援dialog使用的unicode編碼導致...加入以下code可以解決
+
+    #pragma comment(linker,"\"/manifestdependency:type='win32'\name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
