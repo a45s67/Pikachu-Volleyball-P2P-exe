@@ -196,20 +196,46 @@ int insert_func(){
 	fread(sc_data,1,sc_size,sc);
 //============^^prepare^^============================
 
+	/*
+	hook auto_act_proc to recv and send 
+	*/
 	// new_func raw offset (start) = 0x85400
-	memcpy(pe_data+func_start,sc_data,sc_size);
+	memcpy(pe_data+func_start,sc_data,sc_size); // copy func shell code to RVA:0x490000
 
-	char *hook_auto_act_condition_flow = pe_data+0x200+0xfdd;
-	memcpy(hook_auto_act_condition_flow,"\x83\xbe\xa4\x0\x0\x0\x0\x74",8);
+	char *hook_auto_act_condition_flow = pe_data+0x200+0xfdd; // 401fdd - if(player->mode==1) (is computer?)
+	memcpy(hook_auto_act_condition_flow,"\x83\xbe\xa4\x0\x0\x0\x0\x74",8); // if(player->mode!=0) call 0x490000 (set_server_or_client)
 
-	int *hook_auto_act = (int*)(pe_data+0x200+0xfF0);
-	*hook_auto_act = func_offset + 0x50;
+	int *hook_auto_act = (int*)(pe_data+0x200+0xfF0); //401ff0 - call auto_act
+	*hook_auto_act = func_offset + 0x70;                     //=>call 0x490070 (send_or_recv)
 
 
-	char *hook_2p_setting_constraint = pe_data+0x200+0xF1A;
-	memcpy(hook_2p_setting_constraint,"\x83\xf8\x05",3);
+	char *hook_2p_setting_constraint = pe_data+0x200+0xF1A; // 401f1a - if mode<0 || mode>1 : return; (wtf...)
+	memcpy(hook_2p_setting_constraint,"\x83\xf8\x05",3); // => if mode<0 || mode>5
+
 	char* hook_2p_setting = pe_data+0x200+0x3f27;
 	memcpy(hook_2p_setting,"\xf\x85\xd3\xb0\x8\x0",6);
+
+	/*
+	hook rand seed at processCollisionBetweenBallAndPlayer 
+	*/
+	char* func_rand = pe_data+0x200+0x9320; //40a320
+	char* new_func_rand_for_physical_collision = pe_data + func_start + 0x100; //490100
+	memcpy(new_func_rand_for_physical_collision , func_rand , 0x2a); // copy rand() to 0x490100
+	*(int*)(new_func_rand_for_physical_collision + 0x40a320-0x40a320+0x1) = 0x490200; // mov eax, [new_seed] (0x490200)
+	*(int*)(new_func_rand_for_physical_collision + 0x40a33c-0x40a320+0x1) = 0x490200; // mov [new_seed], eax
+
+	char *hook_collision_call_rand = pe_data+0x200+0x20d7+1; // 4030D7 , next instruc :4030DC
+	*(int*) hook_collision_call_rand = 0x490100-0x4030DC;    // call 0x490100 (rew_rand)
+
+	/*
+	handle for game over
+	e.g. mov dword ptr [esi+0C0h], 6  ==> "\xC7\x86\xC0\x00\x00\x00\x06\x00\x00\x00"
+     =>  mov dword ptr [esi+0C0h], 0; nop ==> "\xc7\x86\xa4\x0\x0\x0\x0\x0\x0\x0\x90"
+	len = 11
+	*/
+	char *hook_game_over_mode_set = pe_data + 0x200 + 0x134B; //0x40234B
+	memcpy(hook_game_over_mode_set , "\xc7\x86\xa4\x0\x0\x0\x0\x0\x0\x0\x90", 11);
+
 
 	//*(int*)(pe_data+0x1fc) = 0x60000060;
 	FILE *out = fopen("./files/new_pika_IAT.exe","wb");

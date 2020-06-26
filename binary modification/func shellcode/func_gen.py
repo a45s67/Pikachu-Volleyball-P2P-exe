@@ -14,8 +14,17 @@ l = asm("""
 
         
         """,vma=0x401fdd)
+
+l = asm("""
+        mov dword ptr [esi+0xA4],0
+        nop
+        nop
+        nop
+        """)
+print("len:",len(l))
+
 l = ["\\" + hex(ord(c))[1:] for c in l]
-print(''.join(l[:10]))
+print(''.join(l))
 
 
 
@@ -84,7 +93,8 @@ act_send_recv = asm("""
         push ebp
         mov ebp,esp
 
-        /*======auto test======*/
+        /*======auto act test======*/
+        /*
         mov eax,[ebp+0xc+0x4]
         push eax
         mov eax,[ebp+0x8+0x4]
@@ -92,9 +102,9 @@ act_send_recv = asm("""
         mov eax,[ebp+0x4+0x4]
         push eax
         call 0x402360
+        */
 
-
-        /*======auto test======*/
+        /*======auto act for connection robust testing ======*/
 
 
         push ecx

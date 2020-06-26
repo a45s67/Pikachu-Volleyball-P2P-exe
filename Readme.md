@@ -16,6 +16,11 @@ I did not trace throughly of this binary, not sure if this file is safe =口=...
 This is writen by myself, I think it is safe(?)
 
 
+## Change Log
+- 2020/6/26
+  - Add the Create room and Search room buttom
+  - Add Close room/connection buttom to handle unexpected connection
+
 ## Description of some important source files
 - **binary modification/inject PE/insert.c** : 
   - change the characteristics of .rsrc section to RWX and expand it for new func, new IAT.  

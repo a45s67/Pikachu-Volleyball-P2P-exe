@@ -9,5 +9,6 @@
 
 // 請於此新增您要先行編譯的標頭
 #include "framework.h"
-
+#include<vector>
+#include<string>
 #endif //PCH_H

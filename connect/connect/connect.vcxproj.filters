@@ -30,6 +30,9 @@
     <ClInclude Include="resource.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="interact.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -39,6 +42,9 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="dialog.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="interact.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>

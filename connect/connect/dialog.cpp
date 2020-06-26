@@ -12,6 +12,13 @@ wchar_t* buf[2] = { ip_port[0],ip_port[1] };
 INT_PTR CALLBACK proc_port(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK proc_host(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 
+static HWND hWnd = NULL;
+static HMODULE hMod = NULL;
+
+void init_dialog(HWND hwnd, HMODULE hmod) {
+    hWnd = hwnd;
+    hMod = hmod;
+}
 
 DWORD pid;
 BOOL CALLBACK on_window_enum(HWND hwnd, LPARAM lparam) {
@@ -48,6 +55,7 @@ wchar_t** get_host() {
 
     wprintf(L"title:%s", title);
     get_hwnd_current_proc(hwndfind);
+
     //hwndfind = GetCurrentProcess();
     //HWND hwndfind = get_hwnd_current_proc();//FindWindow(NULL, title);
     int msgboxID = 2;
@@ -66,14 +74,14 @@ wchar_t** get_host() {
 wchar_t** get_port() {
     wchar_t title[BUF_SIZE];
     GetConsoleTitle(title, BUF_SIZE);
-    HWND hwndfind = NULL;
+    HWND hwndfind=NULL;// = hWnd;//NULL;
 
     wprintf(L"title:%s", title);
     get_hwnd_current_proc(hwndfind);
+    //hwnd_main = hwndfind;
     int msgboxID = 2;
 
-
-    if (DialogBox(hMod, MAKEINTRESOURCE(IDD_DIALOG1), hwndfind, proc_port) == IDOK) {
+    if (DialogBox(hMod, MAKEINTRESOURCE(IDD_DIALOG_PORT), hwndfind, proc_port) == IDOK) {
         //_bstr_t  c(buf);
 
         return (wchar_t**)buf;
@@ -91,10 +99,12 @@ INT_PTR CALLBACK proc_host(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
     switch (message)
     {
     case WM_INITDIALOG:
-        return (INT_PTR)TRUE;
+        //SendDlgItemMessage(hDlg, IDC_EDIT1, WM_SETFOCUS, 0, 0);
+        SetFocus(GetDlgItem(hDlg, IDC_EDIT1));
+        return (INT_PTR)false;
 
     case WM_COMMAND:
-        if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
+        if (LOWORD(wParam) == IDOK )
         {
             
             HWND getitem = GetDlgItem(hDlg, IDC_EDIT1);
@@ -110,6 +120,9 @@ INT_PTR CALLBACK proc_host(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
             EndDialog(hDlg, LOWORD(wParam));
             return (INT_PTR)TRUE;
         }
+        else if (LOWORD(wParam) == IDCANCEL) {
+            MessageBox(hDlg, L"不準按取消!", L"Connect to", 0);
+        }
         break;
     }
     return (INT_PTR)FALSE;
@@ -118,17 +131,25 @@ INT_PTR CALLBACK proc_host(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 INT_PTR CALLBACK proc_port(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
     UNREFERENCED_PARAMETER(lParam);
+    HWND hedit;
     switch (message)
     {
     case WM_INITDIALOG:
-        return (INT_PTR)TRUE;
+        
+       // if (GetDlgCtrlID((HWND)wParam) != IDC_EDIT3) {
+            //SendDlgItemMessage(hDlg, IDC_EDIT3, WM_SETFOCUS, 0, 0);
+        hedit = SetFocus(GetDlgItem(hDlg, IDC_EDIT_BINDPORT));
+        //hedit = GetDlgItem(hDlg, IDC_EDIT_BINDPORT);
+
+
+        return (INT_PTR)false;
 
     case WM_COMMAND:
-        if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
+        if (LOWORD(wParam) == IDOK )
         {
 
-            HWND getitem = GetDlgItem(hDlg, IDC_EDIT1);
-            GetDlgItemText(hDlg, IDC_EDIT3, buf[1], 64);
+            //HWND getitem = GetDlgItem(hDlg, IDC_EDIT1);
+            GetDlgItemText(hDlg, IDC_EDIT_BINDPORT, buf[1], 64);
             printf("port_len:%d", lstrlenW(buf[1]));
             wchar_t cntstr[0x80] = { 0 };
             wsprintf(cntstr, L"%s:%s", L"localhost", buf[1]);
@@ -137,7 +158,16 @@ INT_PTR CALLBACK proc_port(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
             EndDialog(hDlg, LOWORD(wParam));
             return (INT_PTR)TRUE;
         }
-        break;
+        
+        if (LOWORD(wParam) == IDCANCEL)
+        {
+            //hedit = GetDlgItem(hDlg, IDC_EDIT_BINDPORT);
+            //SendMessage(hDlg, WM_SETFOCUS, (WPARAM)hedit, -1);
+            hedit = SetFocus(GetDlgItem(hDlg, IDC_EDIT_BINDPORT));
+            printf("hedit = %d , lasterror = %d\n", hedit, GetLastError());
+
+            break;
+        }
     }
     return (INT_PTR)FALSE;
 }
