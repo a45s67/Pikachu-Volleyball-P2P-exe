@@ -2,28 +2,28 @@ File description
 =================
 
 ## insert.c
-- expand():
+- expand():  
    I change the descriptor of .rsrc to RWX and expand the size for new funcs / IID,
    because there seems no more space in PE header to append the IAT or section.
 
-- modify_IID():
+- modify_IID():  
   Move the IID, IAT, IIBN to .rsrc section
 
-- insert_func():
+- insert_func():  
   
   - `auto_act_proc() // 0x402360`  
   Insert recv_send_autoact_wrap() to 0x490070.
   
   At `0x401FDD`, change
-```c
-if(player->mode==1) 
-    call auto_act_proc 
-```
+    ```c
+    if(player->mode==1) 
+        call auto_act_proc 
+    ```
   to:
-```c
-if(palyer->mode!=0)
-    call 0x490070 //recv_send_autoact_wrap() 
-```
+    ```c
+    if(palyer->mode!=0)
+        call 0x490070 //recv_send_autoact_wrap() 
+    ```
     
   
   - `rand() // 0x40A320`
