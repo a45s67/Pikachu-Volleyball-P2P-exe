@@ -9,6 +9,7 @@ static SOCKET *Connectsocket = NULL;
 static SOCKET Connectroomsocket = NULL;
 class Room;
 
+void close_socket(SOCKET* socket);
 //bool create_room_socket(char* host, char* port);
 
 void init_interact(HWND hwnd, HMODULE hmod, SOCKET &socket) {
@@ -16,6 +17,17 @@ void init_interact(HWND hwnd, HMODULE hmod, SOCKET &socket) {
     hMod = hmod;
     Connectsocket = &socket;
 }
+
+/*
+bool connect_set = false;
+
+bool is_connect_set() {
+    return connect_set;
+}
+void make_connect_set(bool mode) {
+    connect_set = mode;
+}
+*/
 
 typedef struct Connect_infos_tag {
 
@@ -36,6 +48,7 @@ private:
     HANDLE ipportstrMutex;
     HANDLE searchMutex;
     HANDLE vecMutex;
+    HANDLE lastsearch = NULL;
     HWND hwndlist= NULL;
     bool searching = false;
     bool listening = false;
@@ -74,8 +87,10 @@ public:
             int dwWaitResult = WaitForSingleObject(
                 This->searchMutex,    // handle to mutex
                 6000);
-            if (!This->searching)
+            if (!This->searching) {
+                //MessageBox(NULL, L"OMG", L"OMG", 0);
                 return 1;
+            }
             This->rooms.clear();
 
             DWORD ThreadID;
@@ -137,6 +152,7 @@ public:
                 SendMessageW(hwndlist, LB_SETITEMDATA, pos, (LPARAM)i);
             }
             
+
             Sleep(300);
         }
     }
@@ -154,11 +170,12 @@ public:
 
         if (!create_socket(0, This->myself.port)) {
             MessageBox(NULL, L"Match failed.\nCreate Room again.", L"Wrong", 0);
+            close_socket(Connectsocket);
         }
             
-        else
+        else {
             MessageBox(NULL, L"Connect successfully.\nPlease turn to 2P mode.", L"Ya", 0);
-
+        }
         This->listening = false;
         Connect_infos *dummy = new Connect_infos{
             "127.0.0.1",
@@ -209,10 +226,16 @@ public:
         {
         case WM_INITDIALOG:
             This->hwndlist = GetDlgItem(hDlg, IDC_LIST_SEARCH);
+            
+            ReleaseMutex(This->searchMutex);
 
 
             This->searching = true;
-            CreateThread(NULL, 0x10, search_room, NULL, 0, NULL);
+            WaitForSingleObject(This->lastsearch, INFINITE);
+
+            This->lastsearch = CreateThread(NULL, 0x10, search_room, NULL, 0, NULL);
+
+
             Sleep(50);
 
             WaitForSingleObject(
@@ -232,16 +255,20 @@ public:
                 else {
                     MessageBox(NULL, L"Connect successfully.\nPlease turn to 2P mode.", L"Ya", 0);
                     This->searching = false;
+                    ReleaseMutex(This->searchMutex);
+                    set_client();
                     EndDialog(hDlg, IDOK);
+                    
                 }
                     //create_room();
                     return (INT_PTR)TRUE;
                 }
             case IDC_BUTTON_UPDATE:
                 {
+                    printf("Update \n");
                     ReleaseMutex(This->searchMutex);
                     // release the lock for search_room()
-                    Sleep(10);
+                    Sleep(100);
                     WaitForSingleObject(
                         This->searchMutex,    // handle to mutex
                         3000);
@@ -250,7 +277,8 @@ public:
                 }
             case IDC_LIST_SEARCH:
             {
-                switch HIWORD(wParam) {
+                switch HIWORD(wParam) 
+                {
 
                 case LBN_SELCHANGE: {
                     printf("selchange param = %d\n", HIWORD(wParam));
@@ -262,6 +290,7 @@ public:
                     //This->hwndlist
                     printf("i = %d\n", i);
                     if (i == -1) {
+                        ReleaseMutex(This->searchMutex);
                         return true;
                     }
 
@@ -281,12 +310,14 @@ public:
                 }   
                 default:
                     printf("param = %d\n", HIWORD(wParam));
+                    return true;
                 }
                 break;
 
             }
             case IDCANCEL:
                 This->searching = false;
+                ReleaseMutex(This->searchMutex);
                 EndDialog(hDlg, LOWORD(wParam));
                 return true;
             }
@@ -324,6 +355,9 @@ bool play_again() {
     return MessageBox(NULL, L"Connect to the same IP?", L"Play again", MB_YESNO) == IDYES;
 }
 
+
+
+
 bool set_pos(int &pos) {
     pos = 2;
     if (is_a_server()) {
@@ -352,6 +386,7 @@ void close_socket(SOCKET* socket) {
     closesocket(*socket);
     //WSACleanup();
     *socket = INVALID_SOCKET;
+
 }
 
 

@@ -13,6 +13,8 @@ void recv_verbose(char* c, int size);
 
 void interact_diag();
 
+//void close_socket(SOCKET* socket);
+
 bool play_again();
 bool set_pos(int &pos);
 //void chat_room();

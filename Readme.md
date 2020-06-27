@@ -19,6 +19,11 @@ This is writen by myself, I think it is safe(?)
 > + If you don't have your own IP, you can regist a google cloud VM, it owns IP. Then use some tools like [frp](https://github.com/fatedier/frp) to bind your port to the VM.
 
 ## Change Log
+- 2020/6/27
+  - Hold to wait for client connection when selecting 2P mode after "Create Room", then set position.
+  - Improve the process of "Search Room" dialog (about handling of mutex).
+  - Solve the problem that the process will be blocked after game over.
+  
 - 2020/6/26
   - Add the Create room and Search room buttom
   - Add Close room/connection buttom to handle unexpected connection

@@ -163,6 +163,13 @@ int set_sever_client() {
     // return 1 for set pos left , 2 for right , 0 for 2P with no online P2P.
     if (socket_exist()) {
         //if (played){// && play_again() ) {
+        struct sockaddr addr;
+        int len = sizeof(addr);
+        while (getpeername(Connectsocket,&addr,&len)==-1) {
+            Sleep(350);
+        }
+
+
         set_pos(last_time_pos);
         //}
         return last_time_pos;
