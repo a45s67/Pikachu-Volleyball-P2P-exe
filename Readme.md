@@ -16,6 +16,7 @@ I did not trace throughly of this binary, not sure if this file is safe =口=...
 > + "connect.dll" is the compiled output of project "connect" in "connect/" with Visual Studio.  
 This is writen by myself, I think it is safe(?)
 
+> + If you don't have your own IP, you can regist a google cloud VM, it owns IP. Then use some tools like [frp](https://github.com/fatedier/frp) to bind your port to the VM.
 
 ## Change Log
 - 2020/6/26
