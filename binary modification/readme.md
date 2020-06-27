@@ -15,11 +15,11 @@ File description
   Insert recv_send_autoact_wrap() to 0x490070.
   
   At `0x401FDD`, change
-    if(player->mode==1) 
-        call auto_act_proc
+``    if(player->mode==1) 
+        call auto_act_proc ``
   to:
-    if(palyer->mode!=0)
-        call 0x490070 //recv_send_autoact_wrap()
+``    if(palyer->mode!=0)
+        call 0x490070 //recv_send_autoact_wrap() ``
     
   
   - `rand() // 0x40A320`
@@ -33,12 +33,12 @@ File description
   Insert `set_2p_init()` to `0x490000`.
   
   Hook `0x404F25` to:
-    test al,4
-    jnz 0x490000 //set_2p_init()
+``    test al,4
+    jnz 0x490000 //set_2p_init() ``
     
   Modify `0x401F1A` to:
-    if mode<0 || mode>5 :
-        return ; 
+``    if mode<0 || mode>5 :
+        return ; ``
   this makes us able to set player->mode up to 2,3,4, such that I can do some condition control which is more complex. In my case, I set the player->mode  for additional control for `send_recv_wrap()`.
   
 
@@ -48,10 +48,10 @@ File description
   Set player->mode = 0 to exit the condition control in `send_recv_wrap()` so player can prevent being blocked by `recv()` when game over.
   
   At `0x40234B`:
-    mov dword ptr [esi+0C0h], 0; nop
+``    mov dword ptr [esi+0C0h], 0; nop ``
   At `0x4022e0`:
-    if player->game_over != 1:
-       jmp 0x402356 ( Original: 0x40234B )
+``    if player->game_over != 1:
+       jmp 0x402356 ( Original: 0x40234B ) ``
        
 
 
