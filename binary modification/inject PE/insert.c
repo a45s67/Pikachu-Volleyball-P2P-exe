@@ -237,6 +237,11 @@ int insert_func(){
 	memcpy(hook_game_over_mode_set , "\xc7\x86\xa4\x0\x0\x0\x0\x0\x0\x0\x90", 11);
 
 
+	/*
+	if i dont hook this , the excution flow will process the shellcode above if player->gaming == true
+	*/
+	char *hook_game_over_if_control = pe_data + 0x200 + 0x12e0 +1;//0x4022e0
+	*hook_game_over_if_control = 0x402356 - 0x4022e2;
 	//*(int*)(pe_data+0x1fc) = 0x60000060;
 	FILE *out = fopen("./files/new_pika_IAT.exe","wb");
 	if(out==NULL){
