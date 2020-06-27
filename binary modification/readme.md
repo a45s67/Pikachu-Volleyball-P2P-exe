@@ -12,14 +12,13 @@ File description
 - insert_func():  
   
   - `auto_act_proc() // 0x402360`  
-  Insert recv_send_autoact_wrap() to 0x490070.  
-  At `0x401FDD`, change
+    Insert recv_send_autoact_wrap() to 0x490070.  
+    At `0x401FDD`, change
     ```c
     if(player->mode==1) 
         call auto_act_proc 
     ```
-    
-  to:
+    to:
     ```c
     if(palyer->mode!=0)
         call 0x490070 //recv_send_autoact_wrap() 
@@ -38,12 +37,12 @@ File description
     jnz 0x490000 //set_2p_init() 
     ```
     
-  Modify `0x401F1A` to:
+    Modify `0x401F1A` to:
     ```c
     if mode<0 || mode>5 :
         return ; 
     ```
-  this makes us able to set player->mode up to 2,3,4, such that I can do some condition control which is more complex. In my case, I set the player->mode  for additional control for `send_recv_wrap()`.
+    this makes us able to set player->mode up to 2,3,4, such that I can do some condition control which is more complex. In my case, I set the player->mode  for additional control for `send_recv_wrap()`.
   
 
   
@@ -55,7 +54,7 @@ File description
     nop 
     ```
     
-  At `0x4022e0`:  
+    At `0x4022e0`:  
     ```c
     if player->game_over != 1:
        jmp 0x402356 ( Original: 0x40234B ) 
