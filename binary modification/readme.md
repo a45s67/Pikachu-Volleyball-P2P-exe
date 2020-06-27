@@ -18,6 +18,7 @@ File description
     if(player->mode==1) 
         call auto_act_proc 
     ```
+    
   to:
     ```c
     if(palyer->mode!=0)
@@ -36,6 +37,7 @@ File description
     test al,4
     jnz 0x490000 //set_2p_init() 
     ```
+    
   Modify `0x401F1A` to:
     ```c
     if mode<0 || mode>5 :
@@ -51,7 +53,8 @@ File description
     ```c
     mov dword ptr [esi+0C0h], 0
     nop 
-    ```  
+    ```
+    
   At `0x4022e0`:  
     ```c
     if player->game_over != 1:
